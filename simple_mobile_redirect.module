@@ -73,7 +73,7 @@ function simple_mobile_redirect_boot() {
   // check for nomobi to skip out as well
   if ((isset($_COOKIE['smr_redirect']) && $_COOKIE['smr_redirect'] == 1) ||
       (isset($_COOKIE['nomobi']) && $_COOKIE['nomobi'] == 'yes') ||
-      (isset($_GET['mobi_redirect']))) {
+      isset($_GET['mobi_redirect']) || isset($_GET['mobi_bypass']) )) {
     return;
   }
 
@@ -83,7 +83,7 @@ function simple_mobile_redirect_boot() {
 
   $simplemobileredirect = '';
   // get the user agent
-  $user_agent         = $_SERVER['HTTP_USER_AGENT'];
+  $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
   // using a switch to check for the user agent, smoother than a searies of if's
   switch (TRUE) {

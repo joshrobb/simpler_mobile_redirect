@@ -2,6 +2,9 @@
 /**
  * @file
  */
+define('REDIRECT_EVERY_TIME', 1);
+define('REDIRECT_ONCE_PER_SESSION', 2);
+define('REDIRECT_ONCE_PER_TIMEFRAME', 3);
 
 /**
  * Implements hook_menu().
@@ -56,8 +59,14 @@ function _simple_mobile_redirect_clearcookie() {
 function _simple_mobile_redirect_setcookie($redirect = FALSE) {
   global $base_url;
   $simplemobilehome = variable_get('simple_mobile_redirect_home', '/');
-  $expire = REQUEST_TIME + 60 * 60 * 24 * 30;
-  setcookie("nomobi", "yes", $expire);
+  $persistence = variable_get('simple_mobile_persistent_redirect', REDIRECT_ONCE_PER_TIMEFRAME);
+  $expire = 0;
+  if ($persistence == REDIRECT_ONCE_PER_TIMEFRAME) {
+    $expire = REQUEST_TIME + 60 * 60 * 24 * 30;
+  }
+  if ($persistence != REDIRECT_EVERY_TIME) {
+    setcookie("nomobi", "yes", $expire);
+  }
   // drupal_goto() does not exist here, as we are triggering at boot.
   // suggestions to work around this, perhaps a variable setting to get the full URL via the admin.
   if ($redirect) {
@@ -141,7 +150,9 @@ function simple_mobile_redirect_boot() {
   // if redirect (either the value of the mobile or desktop redirect depending on the value of $is_mobile_browser) is TRUE redirect else we return the status of $is_mobile_browser
   if ($simplemobileredirect != '') {
     // set a cookie so we don't loop.
-    setcookie('smr_redirect', 1);
+    if (variable_get('simple_mobile_persistent_redirect', REDIRECT_ONCE_PER_TIMEFRAME) == REDIRECT_EVERY_TIME) {
+      setcookie('smr_redirect', 1);
+    }
 
     $simplemobileredirect = ltrim($simplemobileredirect, '/');
 

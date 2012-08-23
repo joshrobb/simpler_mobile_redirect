@@ -1,4 +1,7 @@
 <?php
+/**
+ * @file
+ */
 
 /**
  * Implements hook_menu().
@@ -73,7 +76,7 @@ function simple_mobile_redirect_boot() {
   // check for nomobi to skip out as well
   if ((isset($_COOKIE['smr_redirect']) && $_COOKIE['smr_redirect'] == 1) ||
       (isset($_COOKIE['nomobi']) && $_COOKIE['nomobi'] == 'yes') ||
-      isset($_GET['mobi_redirect']) || isset($_GET['mobi_bypass']) )) {
+      isset($_GET['mobi_redirect']) || isset($_GET['mobi_bypass']) ) {
     return;
   }
 

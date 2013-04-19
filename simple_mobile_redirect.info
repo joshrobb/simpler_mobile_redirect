@@ -1,6 +1,7 @@
-name = Simple Mobile Redirect
+name = Simpler Mobile Redirect
 description = Redirect to mobile site, optional cookie to not redirect
 core = 7.x
 package = Mobile
+configure = admin/config/system/simpler_mobile_redirect
 
-files[] = simple_module_redirect.test
+files[] = simpler_module_redirect.test

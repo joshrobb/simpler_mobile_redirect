@@ -3,5 +3,3 @@ description = Redirect to mobile site, optional cookie to not redirect
 core = 7.x
 package = Mobile
 configure = admin/config/system/simpler_mobile_redirect
-
-files[] = simpler_module_redirect.test

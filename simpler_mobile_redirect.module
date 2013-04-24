@@ -36,7 +36,7 @@ function simpler_mobile_redirect_permission() {
 /**
  * Function to set the redirect cookie.
  */
-function _simpler_mobile_redirect_setcookie($location, $redirect = FALSE) {
+function _simpler_mobile_redirect_doredirect($location, $redirect = FALSE) {
   global $base_url;
   global $cookie_domain;
 
@@ -54,7 +54,7 @@ function _simpler_mobile_redirect_setcookie($location, $redirect = FALSE) {
 
   // Check to see if we are redirecting and then check to see if we are not there already.
   if ($redirect && $parsed_url['scheme'] . '://' . $parsed_url['host'] != $base_url) {
-    simpler_mobile_redirect_redirect($location);
+    _simpler_mobile_redirect_redirect($location);
   }
   return;
 }
@@ -62,7 +62,7 @@ function _simpler_mobile_redirect_setcookie($location, $redirect = FALSE) {
 /**
  * Redirect function
  */
-function simpler_mobile_redirect_redirect($location) {
+function _simpler_mobile_redirect_redirect($location) {
   // If there are additional parameters we redirect the
   // user to the alternate domain keeping parameters intact.
   if ($_GET['q']) {
@@ -90,7 +90,7 @@ function simpler_mobile_redirect_boot() {
   if (isset($_GET['nomobi']) && $_GET['nomobi'] == 'true') {
     $nonmobile = variable_get('simpler_mobile_redirect_home', '');
     setcookie("nomobi", 'true', 0, '/', $cookie_domain);
-    _simpler_mobile_redirect_setcookie($nonmobile, TRUE);
+    _simpler_mobile_redirect_doredirect($nonmobile, TRUE);
     return;
   }
 
@@ -103,7 +103,7 @@ function simpler_mobile_redirect_boot() {
       $mobilesite = variable_get('simpler_mobile_redirect_iphone', '');
 
     if($mobilesite != '')
-      _simpler_mobile_redirect_setcookie($mobilesite, TRUE);
+      _simpler_mobile_redirect_doredirect($mobilesite, TRUE);
     return; 
   }
 
@@ -119,7 +119,7 @@ function simpler_mobile_redirect_boot() {
     if($simplemobileredirect == '') return;
 
     // Set the cookie and redirect the user to the correct location
-    _simpler_mobile_redirect_setcookie($simplemobileredirect, TRUE);
+    _simpler_mobile_redirect_doredirect($simplemobileredirect, TRUE);
   }
   return;
 } 
